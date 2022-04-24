@@ -83,7 +83,7 @@ if not os.path.exists(main_csv):
     mylist = []
     df = pd.read_csv(dcmdump_csv)
     c = 0
-    for PatientName in df["Patient's Name"].unique():
+    for PatientName in tqdm(df["Patient's Name"].unique()):
 
         subject_folder_path = os.path.join(outputdir,PatientName)
         os.makedirs(subject_folder_path,exist_ok=True)
