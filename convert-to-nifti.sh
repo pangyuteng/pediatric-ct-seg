@@ -3,13 +3,12 @@
 inputdir=$1
 outputdir=$2
 
-#docker build -t pediatric-ct-seg .
 docker run -it \
+	-u $(id -u):$(id -g) \
 	-e inputdir=$inputdir \
 	-e outputdir=$outputdir \
 	-v $inputdir:$inputdir \
 	-v $outputdir:$outputdir \
 	-w /workdir -v $PWD:/workdir \
-	pediatric-ct-seg bash
-
+	pediatric-ct-seg bash -c "python dcm2nifti.py $inputdir $outputdir"
 
