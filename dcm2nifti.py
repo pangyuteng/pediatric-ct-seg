@@ -149,9 +149,10 @@ if not os.path.exists(main_csv):
                     print(f"mask_3d {mask_3d.shape}")
                     mask_3d = np.swapaxes(mask_3d, 1, 2)
                     mask_3d = np.swapaxes(mask_3d, 0, 1)
-                    mask[mask_3d==1]=UNCLEANED_ORGAN_ENUM_DICT[roi_name]
+                    mask[mask_3d>0]=UNCLEANED_ORGAN_ENUM_DICT[roi_name]
                 except:
                     traceback.print_exc()
+                    print(roi_name,'!!!')
                     
             print(mask.shape,np.unique(mask))
             mask = mask.astype(np.uint8)
@@ -168,9 +169,8 @@ if not os.path.exists(main_csv):
 
         item = dict(
             PatientName=PatientName,
-            image_file=ds_folder_path,
+            image_file=image_file,
             mask_preprocessed_file=mask_preprocessed_file,
-            str2num_dict=str(str2num_dict),
         )
         mylist.append(item)
         pd.DataFrame(mylist).to_csv(main_csv,index=False)
