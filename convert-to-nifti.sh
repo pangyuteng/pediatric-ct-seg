@@ -10,5 +10,6 @@ docker run -it \
 	-v $inputdir:$inputdir \
 	-v $outputdir:$outputdir \
 	-w /workdir -v $PWD:/workdir \
-	pediatric-ct-seg bash -c "python dcm2nifti.py $inputdir $outputdir"
+	pediatric-ct-seg bash 
+	
 
