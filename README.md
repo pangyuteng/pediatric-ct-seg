@@ -43,12 +43,13 @@ python download.py Pediatric-CT-SEG-Mar-22-2022-manifest.tcia $inputdir
 ```
 
 docker build -t pediatric-ct-seg .
-export inputdir=/mnt/hd2/data/ped-ct-seg
-export outputdir=/mnt/hd/data/ped-ct-seg-nifti
-mkdir -p $outputdir
+docker run -it -u $(id -u):$(id -g) -w $PWD -v /mnt:/mnt pediatric-ct-seg bash
 
-bash convert-to-nifti.sh $inputdir $outputdir
-python dcm2nifti.py $inputdir $outputdir
+mkdir -p /mnt/hd2/data/ped-ct-seg-nifti
+
+python dcm2nifti.py \
+    /mnt/hd2/data/ped-ct-seg \
+    /mnt/hd2/data/ped-ct-seg-nifti
 
 ```
 

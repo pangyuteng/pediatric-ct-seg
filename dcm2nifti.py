@@ -78,7 +78,13 @@ if not os.path.exists(uncleaned_organ_json):
 
 with open(uncleaned_organ_json,'r') as f:
     UNCLEANED_ORGAN_ENUM_DICT = json.loads(f.read())
+print('UNCLEANED_ORGAN_ENUM_DICT')
 print(UNCLEANED_ORGAN_ENUM_DICT)
+# based on UNCLEANED_ORGAN_ENUM_DICT, manually created below
+with open("organ_mapper.json",'r') as f:
+    ORGAN_MAPPER = json.loads(f.read())
+print('ORGAN_MAPPER')
+print(ORGAN_MAPPER)
 
 
 import asyncio
@@ -149,7 +155,6 @@ def myjob(PatientName):
         image = sitk.GetArrayFromImage(img_obj)
         mask = np.zeros_like(image)
 
-        UNCLEANED_ORGAN_ENUM_DICT
         print(f'image shape {image.shape}')
         for roi_name in rtstruct.get_roi_names():
             try:
@@ -157,7 +162,9 @@ def myjob(PatientName):
                 print(f"mask_3d {mask_3d.shape}")
                 mask_3d = np.swapaxes(mask_3d, 1, 2)
                 mask_3d = np.swapaxes(mask_3d, 0, 1)
-                mask[mask_3d>0]=UNCLEANED_ORGAN_ENUM_DICT[roi_name]
+                target_value = ORGAN_MAPPER[roi_name]
+                mask[mask_3d>0] = target_value
+
             except:
                 traceback.print_exc()
                 print(roi_name,'!!!')
