@@ -193,16 +193,15 @@ use below to locate 4 cases that dcm2nifti.py errored out on.
 {'Pediatric-CT-SEG-272B6C5D', 'Pediatric-CT-SEG-CAB73EEC', 'Pediatric-CT-SEG-34ECBB32', 'Pediatric-CT-SEG-14403912'}
 
 
-below resolved
+below resolved ??
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-14403912
 
-below NOT resolved. (add -p to arg!)
+below likely resolved ?? (add -p to arg).
 
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-272B6C5D
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-CAB73EEC
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-34ECBB32
 
-
-
+above viewed with ITKSNAP, and then ran interpolation and then overwritten mask nifti
 
 """
