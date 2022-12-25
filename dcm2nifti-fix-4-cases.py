@@ -3,6 +3,7 @@ import sys
 import ast
 import json
 import time
+import argparse
 import traceback
 import hashlib
 import numpy as np
@@ -46,7 +47,7 @@ dcmdump_csv = 'retry-4-cases.csv'
 
 DICOM_ROOT = '/mnt/hd2/data/ped-ct-seg'
 
-def myjob(outputdir,PatientName):
+def myjob(outputdir,PatientName,patch_rt):
     df = pd.read_csv(dcmdump_csv)
     
     subject_folder_path = os.path.join(outputdir,PatientName)
@@ -67,10 +68,10 @@ def myjob(outputdir,PatientName):
     rt_folder = os.path.join(DICOM_ROOT,rt.SeriesInstanceUID[0])
     rt_file = os.path.join(rt_folder,os.listdir(rt_folder)[0])
     
-    print(rt_file)
+    print('ds_folder_path',ds_folder_path)
+    print('rt_file',rt_file)
     rt = pydicom.dcmread(rt_file)
     ReferencedSOPInstanceUID_list = [x[(0x0008,0x1155)].value for x in rt[(0x3006,0x0010)][0][(0x3006,0x0012)][0][(0x3006,0x0014)][0][(0x3006,0x0016)]]
-    
     
     SOPInstanceUID_list = []
     for basename in os.listdir(ds_folder_path):
@@ -83,8 +84,27 @@ def myjob(outputdir,PatientName):
         if ReferencedSOPInstanceUID not in SOPInstanceUID_list:
             no_match_list.append(ReferencedSOPInstanceUID)
 
+    if patch_rt:
+        print('in 3 seconds we will patch RT_STRUCT!')
+        time.sleep(5)
+        rt = pydicom.dcmread(rt_file)
+        tmp = rt[(0x3006,0x0010)][0][(0x3006,0x0012)][0][(0x3006,0x0014)][0][(0x3006,0x0016)]
+        new_list = []
+        for x in tmp:
+            if x[(0x0008,0x1155)].value in SOPInstanceUID_list:
+                new_list.append(x)
+        rt[(0x3006,0x0010)][0][(0x3006,0x0012)][0][(0x3006,0x0014)][0][(0x3006,0x0016)].value=new_list
+        rt_file = '/tmp/newfile.dcm'
+        pydicom.dcmwrite(rt_file, rt,write_like_original=True)
+        rt = pydicom.dcmread(rt_file)
+        ReferencedSOPInstanceUID_list = [x[(0x0008,0x1155)].value for x in rt[(0x3006,0x0010)][0][(0x3006,0x0012)][0][(0x3006,0x0014)][0][(0x3006,0x0016)]]
+        no_match_list = []
+        for ReferencedSOPInstanceUID in ReferencedSOPInstanceUID_list:
+            if ReferencedSOPInstanceUID not in SOPInstanceUID_list:
+                no_match_list.append(ReferencedSOPInstanceUID)
+
     if len(no_match_list)>0:
-        print(len(no_match_list),len(SOPInstanceUID_list))
+        print(len(no_match_list),len(ReferencedSOPInstanceUID_list),len(SOPInstanceUID_list))
         raise ValueError('no matching SOPInstanceUID_list')
 
     if not os.path.exists(image_file):
@@ -158,9 +178,12 @@ def myjob(outputdir,PatientName):
 
     return True
 if __name__ == "__main__":
-    outputdir = sys.argv[1]
-    PatientName = sys.argv[2]
-    myjob(outputdir,PatientName)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('outputdir')
+    parser.add_argument('PatientName')
+    parser.add_argument('-p', '--patch_rt',action='store_true')
+    args = parser.parse_args()
+    myjob(args.outputdir,args.PatientName,args.patch_rt)
 
 """
 use below to locate 4 cases that dcm2nifti.py errored out on.
@@ -173,7 +196,7 @@ use below to locate 4 cases that dcm2nifti.py errored out on.
 below resolved
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-14403912
 
-below NOT resolved.
+below NOT resolved. (add -p to arg!)
 
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-272B6C5D
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-CAB73EEC
