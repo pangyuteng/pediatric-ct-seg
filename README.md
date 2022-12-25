@@ -43,6 +43,11 @@ python download.py Pediatric-CT-SEG-Mar-22-2022-manifest.tcia $inputdir
 ```
 
 docker build -t pediatric-ct-seg .
+
+
+docker tag pediatric-ct-seg pangyuteng:pediatric-ct-seg
+docker push pangyuteng:pediatric-ct-seg
+
 docker run -it -u $(id -u):$(id -g) -w $PWD -v /mnt:/mnt pediatric-ct-seg bash
 
 mkdir -p /mnt/hd2/data/ped-ct-seg-nifti
