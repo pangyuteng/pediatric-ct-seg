@@ -92,7 +92,7 @@ def myjob(outputdir,PatientName,patch_rt):
         new_list = []
         for x in tmp:
             if x[(0x0008,0x1155)].value in SOPInstanceUID_list:
-                new_list.append(x)
+                new_list.append(x)                    
         rt[(0x3006,0x0010)][0][(0x3006,0x0012)][0][(0x3006,0x0014)][0][(0x3006,0x0016)].value=new_list
         rt_file = '/tmp/newfile.dcm'
         pydicom.dcmwrite(rt_file, rt,write_like_original=True)
@@ -200,8 +200,39 @@ below likely resolved ?? (add -p to arg).
 
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-272B6C5D
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-CAB73EEC
-python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-34ECBB32
 
 above viewed with ITKSNAP, and then ran interpolation and then overwritten mask nifti
+
+below case showed no mask...
+python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-34ECBB32
+
+pip install dcmrtstruct2nii
+export rt_file=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.1.25927210562287345060498125954444953116/1-fa0d96fce842f0a48096d8d1a2977b27.dcm
+export dcm_folder=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.160098151550784443282129329572672487102
+export nifti_folder=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-34ECBB32/masks
+export nifti_file=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-34ECBB32/mask_preprocessed.nii.gz
+python fix-last-case.py $rt_file $dcm_folder $nifti_folder $nifti_file
+
+# delete the $nifti_folder
+
+export rt_file
+export dcm_folder
+export nifti_folder
+export nifti_file
+
+export rt_file=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.1.17305113025728199346750740188024809813/1-cd3fd493dcf44c9353c3e19fa962e5e4.dcm
+export dcm_folder=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.336975195064431029632182792210605161857
+export nifti_folder=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-272B6C5D/masks
+export nifti_file=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-272B6C5D/mask_preprocessed.nii.gz
+python fix-last-case.py $rt_file $dcm_folder $nifti_folder $nifti_file
+
+export rt_file=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.175594891989977819790310921126823896785/1-c35345fb73bfa2a5556f0f6332f00709.dcm
+export dcm_folder=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.161494771169616128771736064327557201788
+export nifti_folder=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-CAB73EEC/masks
+export nifti_file=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-CAB73EEC/mask_preprocessed.nii.gz
+python fix-last-case.py $rt_file $dcm_folder $nifti_folder $nifti_file
+
+
+
 
 """
