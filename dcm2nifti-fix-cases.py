@@ -43,7 +43,7 @@ with open(uncleaned_organ_json,'r') as f:
 
 with open("organ_mapper.json",'r') as f:
     ORGAN_MAPPER = json.loads(f.read())
-dcmdump_csv = 'retry-4-cases.csv'
+dcmdump_csv = 'retry-cases.csv'
 
 DICOM_ROOT = '/mnt/hd2/data/ped-ct-seg'
 
@@ -193,18 +193,15 @@ use below to locate 4 cases that dcm2nifti.py errored out on.
 {'Pediatric-CT-SEG-272B6C5D', 'Pediatric-CT-SEG-CAB73EEC', 'Pediatric-CT-SEG-34ECBB32', 'Pediatric-CT-SEG-14403912'}
 
 
-below resolved ??
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-14403912
-
-below likely resolved ?? (add -p to arg).
 
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-272B6C5D
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-CAB73EEC
-
-above viewed with ITKSNAP, and then ran interpolation and then overwritten mask nifti
+above viewed with ITKSNAP, contours are missing slices!
 
 below case showed no mask...
 python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-34ECBB32
+python dcm2nifti-fix-4-cases.py /mnt/hd2/data/ped-ct-seg-nifti Pediatric-CT-SEG-C7338499
 
 pip install dcmrtstruct2nii
 export rt_file=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.1.25927210562287345060498125954444953116/1-fa0d96fce842f0a48096d8d1a2977b27.dcm
@@ -233,6 +230,6 @@ export nifti_file=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-CAB73EEC/mask_
 python fix-last-case.py $rt_file $dcm_folder $nifti_folder $nifti_file
 
 
-
+Pediatric-CT-SEG-C7338499
 
 """
