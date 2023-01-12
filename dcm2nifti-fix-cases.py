@@ -238,7 +238,7 @@ Pediatric-CT-SEG-C7338499
 export rt_file=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.1.24786082590222911565820263531922721785/1-f9bfd4e3fcb53b6843052f22ea818c49.dcm
 export dcm_folder=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.260321938736326085125972766634789836424
 export nifti_folder=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-C7338499/masks
-export nifti_file==/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-C7338499/mask_preprocessed.nii.gz
+export nifti_file=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-C7338499/mask_preprocessed.nii.gz
 
 
 """
