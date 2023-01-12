@@ -232,4 +232,13 @@ python fix-last-case.py $rt_file $dcm_folder $nifti_folder $nifti_file
 
 Pediatric-CT-SEG-C7338499
 
+1.3.6.1.4.1.14519.5.2.1.260321938736326085125972766634789836424,1.3.6.1.4.1.14519.5.2.1.294789660809722318580941683858436001056,CT,2009-10-12,CT,30144.000000,Pediatric-CT-SEG,GE MEDICAL SYSTEMS,Revolution CT,revo_ct_21a.33,1,152,ABDOMEN,Pediatric-CT-SEG-C7338499,Pediatric-CT-SEG-C7338499,F,2009-10-12,CT,003Y,2
+1.3.6.1.4.1.14519.5.2.1.1.24786082590222911565820263531922721785,1.3.6.1.4.1.14519.5.2.1.294789660809722318580941683858436001056,RTSTRUCT,,,2.000000,Pediatric-CT-SEG,Varian Medical Systems,ARIA RTM,4.2.7.0,1,1,,Pediatric-CT-SEG-C7338499,Pediatric-CT-SEG-C7338499,F,2009-10-12,CT,003Y,2
+
+export rt_file=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.1.24786082590222911565820263531922721785/1-f9bfd4e3fcb53b6843052f22ea818c49.dcm
+export dcm_folder=/mnt/hd2/data/ped-ct-seg/1.3.6.1.4.1.14519.5.2.1.260321938736326085125972766634789836424
+export nifti_folder=/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-C7338499/masks
+export nifti_file==/mnt/hd2/data/ped-ct-seg-nifti/Pediatric-CT-SEG-C7338499/mask_preprocessed.nii.gz
+
+
 """
